@@ -21,12 +21,13 @@ use crate::{
     server::{apply_policy, BoxedExtensionFactory, WasmHandler},
 };
 use anyhow::Context;
-use grpc_attestation::{
+use grpc_streaming_attestation::{
     proto::streaming_session_server::StreamingSessionServer,
     server::{AttestationServer, LogError},
 };
 use log::Level;
 use oak_functions_abi::proto::{ConfigurationInfo, Request, ServerPolicy};
+use oak_logger::OakLogger;
 use prost::Message;
 use std::{future::Future, net::SocketAddr};
 

@@ -776,8 +776,11 @@ version = "0.8.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a19187fea3ac7e84da7dacf48de0c45d63c6a76f9490dae389aead16c243fce3"
 dependencies = [
+ "atty",
+ "humantime",
  "log",
  "regex",
+ "termcolor",
 ]
 
 [[package]]
@@ -1012,6 +1015,7 @@ dependencies = [
  "oak_functions",
  "oak_functions_abi",
  "oak_functions_loader",
+ "oak_functions_metrics",
  "prost",
  "prost-build",
  "rand 0.8.5",
@@ -1073,7 +1077,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "grpc_attestation"
+name = "grpc_streaming_attestation"
 version = "0.1.0"
 dependencies = [
  "anyhow",
@@ -1505,6 +1509,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "lookup_data_checker"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bytes",
+ "clap 3.0.14",
+ "env_logger 0.8.4",
+ "location_utils",
+ "log",
+ "oak_functions_abi",
+ "prost",
+ "rand 0.5.6",
+ "serde",
+]
+
+[[package]]
 name = "lookup_data_generator"
 version = "0.1.0"
 dependencies = [
@@ -1875,7 +1895,7 @@ dependencies = [
  "clap 3.0.14",
  "ecdsa",
  "env_logger 0.9.0",
- "grpc_attestation",
+ "grpc_streaming_attestation",
  "http",
  "log",
  "oak_functions_abi",
@@ -1918,7 +1938,7 @@ dependencies = [
  "clap 3.0.14",
  "criterion",
  "futures",
- "grpc_attestation",
+ "grpc_streaming_attestation",
  "http",
  "humantime-serde",
  "hyper",
@@ -1927,6 +1947,9 @@ dependencies = [
  "lookup_data_generator",
  "maplit",
  "oak_functions_abi",
+ "oak_functions_metrics",
+ "oak_functions_tf_inference",
+ "oak_logger",
  "oak_remote_attestation",
  "oak_utils",
  "prost",
@@ -1940,7 +1963,6 @@ dependencies = [
  "tokio",
  "toml",
  "tonic",
- "tract-tensorflow 0.15.9-pre",
  "url",
  "wasmi",
 ]
@@ -1962,6 +1984,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "oak_functions_metrics"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "log",
+ "maplit",
+ "oak_logger",
+ "rand 0.8.5",
+ "serde",
+]
+
+[[package]]
 name = "oak_functions_sdk_abi_test"
 version = "0.1.0"
 dependencies = [
@@ -1970,6 +2004,21 @@ dependencies = [
  "maplit",
  "oak_functions",
  "oak_functions_abi",
+]
+
+[[package]]
+name = "oak_functions_tf_inference"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bytes",
+ "log",
+ "oak_functions_abi",
+ "oak_logger",
+ "prost",
+ "serde",
+ "serde_derive",
+ "tract-tensorflow 0.15.9-pre",
 ]
 
 [[package]]
@@ -1993,6 +2042,13 @@ dependencies = [
  "sha2 0.10.1",
  "tokio",
  "tokio-rustls 0.22.0",
+]
+
+[[package]]
+name = "oak_logger"
+version = "0.1.0"
+dependencies = [
+ "log",
 ]
 
 [[package]]
@@ -3114,7 +3170,7 @@ dependencies = [
  "clap 3.0.14",
  "env_logger 0.9.0",
  "futures",
- "grpc_attestation",
+ "grpc_streaming_attestation",
  "http",
  "log",
  "oak_functions_abi",

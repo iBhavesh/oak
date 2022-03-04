@@ -27,9 +27,9 @@ pub mod server;
 pub mod tf;
 
 #[cfg(feature = "oak-metrics")]
-use crate::metrics::{PrivateMetricsConfig, PrivateMetricsProxyFactory};
+use crate::metrics::PrivateMetricsProxyFactory;
 #[cfg(feature = "oak-tf")]
-use crate::tf::{read_model_from_path, TensorFlowFactory, TensorFlowModelConfig};
+use crate::tf::{read_model_from_path, TensorFlowFactory};
 use crate::{
     grpc::{create_and_start_grpc_server, create_wasm_handler},
     logger::Logger,
@@ -41,6 +41,11 @@ use anyhow::Context;
 use clap::Parser;
 use log::Level;
 use oak_functions_abi::proto::{ConfigurationInfo, ServerPolicy};
+#[cfg(feature = "oak-metrics")]
+use oak_functions_metrics::PrivateMetricsConfig;
+#[cfg(feature = "oak-tf")]
+use oak_functions_tf_inference::TensorFlowModelConfig;
+use oak_logger::OakLogger;
 use oak_remote_attestation::crypto::get_sha256;
 use serde_derive::Deserialize;
 use std::{
@@ -186,7 +191,7 @@ async fn async_main(opt: Opt, config: Config, logger: Logger) -> anyhow::Result<
     #[cfg(feature = "oak-tf")]
     if let Some(tf_model_config) = &config.tf_model {
         // Load the TensorFlow model from the given path in the config
-        let model = read_model_from_path(&tf_model_config.path).await?;
+        let model = read_model_from_path(&tf_model_config.path)?;
         let tf_model_factory = TensorFlowFactory::new_boxed_extension_factory(
             model,
             tf_model_config.shape.clone(),
